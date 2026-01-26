@@ -1,1 +1,11 @@
-<!DOCTYPE html><html><body><h2>LOGIN SAAS CHATBOT</h2><div id="loginBox"><input id="username" placeholder="Username"><br><input id="password" type="password" placeholder="Password"><br><button onclick="login()">Login</button><p id="loginError"></p></div><div id="chatBox" style="display:none"><p id="info"></p><textarea id="msg" rows="4" cols="30"></textarea><br><button onclick="send()">Kirim</button><pre id="res"></pre></div><script>let CLIENT="",USER="";async function login(){const r=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});const d=await r.json();if(d.error){loginError.innerText=d.error;}else{CLIENT=d.client;USER=username.value;info.innerText='Limit: '+d.used+'/'+d.limit;loginBox.style.display='none';chatBox.style.display='block';}}async function send(){const r=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg.value,client:CLIENT,username:USER})});const d=await r.json();res.innerText=d.reply+'\nSisa limit: '+d.remaining;}</script></body></html> 
+const data = {
+  business_profile: {
+    name: document.getElementById("name").value,
+    type: document.getElementById("type").value,
+    products: document.getElementById("product").value,
+    price: document.getElementById("price").value,
+    rules: document.getElementById("rules").value,
+    working_hours: document.getElementById("hours").value
+  },
+  question: document.getElementById("question").value
+};
