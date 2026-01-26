@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 
 const app = express();
-app.use(express.json());
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.send("SaaS Luna berjalan 🚀");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const PORT = process.env.PORT || 3000;
