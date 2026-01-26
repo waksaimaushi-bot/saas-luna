@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Luna AI</title>
-</head>
 <body>
-  <h1>Luna AI</h1>
+  <h1>Luna AI – Asisten Toko Online</h1>
 
-  <textarea id="q" rows="5" cols="40" placeholder="Tanya apa saja..."></textarea><br>
-  <button onclick="ask()">Tanya AI</button>
+  <h3>Profil Toko</h3>
+  <input id="name" placeholder="Nama toko"><br>
+  <input id="product" placeholder="Produk"><br>
+  <input id="price" placeholder="Harga"><br>
+  <input id="rules" placeholder="Aturan"><br>
+  <input id="hours" placeholder="Jam kerja"><br>
 
-  <p id="res"></p>
+  <h3>Pertanyaan Customer</h3>
+  <textarea id="question"></textarea><br>
+  <button onclick="askAI()">Tanya AI</button>
+
+  <p id="result"></p>
 
   <script>
-    async function ask() {
-      const question = document.getElementById("q").value;
+    async function askAI() {
+      const business = {
+        name: name.value,
+        product: product.value,
+        price: price.value,
+        rules: rules.value,
+        hours: hours.value,
+      };
+
+      const question = document.getElementById("question").value;
 
       const res = await fetch("/api/ask", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ question })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ business, question })
       });
 
       const data = await res.json();
-      document.getElementById("res").innerText = data.answer;
+      document.getElementById("result").innerText = data.answer;
     }
   </script>
 </body>
