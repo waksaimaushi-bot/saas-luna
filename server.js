@@ -9,28 +9,23 @@ app.use(express.static("public"));
 
 app.post("/api/ask", async (req, res) => {
   try {
-    const { business_profile, question } = req.body;
-
-    // validasi body
-    if (!business_profile || !question) {
-      return res.status(400).json({
-        error: "Body tidak lengkap",
-      });
-    }
+    const { business, question } = req.body;
 
     const prompt = `
-Kamu adalah AI customer service untuk bisnis berikut:
+Kamu adalah AI customer service untuk toko online.
 
-Nama bisnis: ${business_profile.name}
-Tipe: ${business_profile.type}
-Produk: ${business_profile.products}
-Harga: ${business_profile.price}
-Aturan: ${business_profile.rules}
-Jam kerja: ${business_profile.working_hours}
+Profil toko:
+Nama: ${business.name}
+Produk: ${business.product}
+Harga: ${business.price}
+Aturan: ${business.rules}
+Jam kerja: ${business.hours}
 
-Jawab pertanyaan customer secara singkat, ramah, dan profesional.
+Tugas kamu:
+Jawab pertanyaan customer dengan sopan, singkat, dan meyakinkan.
 
-Pertanyaan: ${question}
+Customer bertanya:
+"${question}"
 `;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -40,34 +35,22 @@ Pertanyaan: ${question}
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4.1-mini",
-        messages: [
-          { role: "system", content: "Kamu adalah AI customer service bisnis." },
-          { role: "user", content: prompt },
-        ],
-        temperature: 0.6,
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
       }),
     });
 
     const data = await response.json();
-
-    // kalau error dari OpenAI
-    if (data.error) {
-      console.log("OPENAI ERROR:", data.error);
-      return res.status(500).json({
-        error: data.error.message,
-      });
-    }
-
     const answer = data.choices[0].message.content;
-    res.json({ answer });
 
+    res.json({ answer });
   } catch (err) {
-    console.error("SERVER ERROR:", err);
+    console.error(err);
     res.status(500).json({ answer: "Terjadi error di server AI." });
   }
 });
 
-app.listen(3000, () => {
-  console.log("✅ SaaS Luna aktif di http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Luna AI running on port " + PORT);
 });

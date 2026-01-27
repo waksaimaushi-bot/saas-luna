@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+if (!localStorage.getItem("login")) {
+  window.location.href = "/login.html";
+}
+</script>
+
+<h2>Chat AI UMKM</h2>
+<textarea id="msg"></textarea><br>
+<button onclick="sendChat()">Kirim</button>
+<div id="reply"></div>
+
+<script>
+async function sendChat() {
+  const res = await fetch("/chat", { method: "POST" });
+  const data = await res.json();
+  document.getElementById("reply").innerText = data.reply;
+}
+</script>
+
+</body>
+</html>

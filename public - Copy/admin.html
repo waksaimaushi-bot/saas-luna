@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+<!DOCTYPE html><html><body><h2>ADMIN DASHBOARD</h2><input id="u" placeholder="Username"><br><input id="p" placeholder="Password"><br><input id="c" placeholder="Client (toko)"><br><button onclick="add()">Tambah User</button><pre id="res"></pre><script>async function add(){const r=await fetch('/admin/add-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u.value,password:p.value,client:c.value})});const d=await r.json();res.innerText=JSON.stringify(d);}</script></body></html> 
+=======
+<!DOCTYPE html><html><body><h2>ADMIN DASHBOARD</h2><input id="u" placeholder="Username"><br><input id="p" placeholder="Password"><br><input id="c" placeholder="Client (toko)"><br><button onclick="add()">Tambah User</button><pre id="res"></pre><script>async function add(){const r=await fetch('/admin/add-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u.value,password:p.value,client:c.value})});const d=await r.json();res.innerText=JSON.stringify(d);}</script></body></html> 
+>>>>>>> 921d5a7daf909d4a6576eadb80c3c2a38d94627f

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Luna AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    input, textarea, button {
+      width: 300px;
+      margin: 5px 0;
+      padding: 6px;
+    }
+    textarea {
+      height: 80px;
+    }
+    #result {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Luna AI</h1>
+
+  <h3>Profil Bisnis</h3>
+  <input id="name" placeholder="Nama bisnis"><br>
+  <input id="type" placeholder="Tipe"><br>
+  <input id="product" placeholder="Produk"><br>
+  <input id="price" placeholder="Harga"><br>
+  <input id="rules" placeholder="Aturan"><br>
+  <input id="hours" placeholder="Jam kerja"><br>
+
+  <h3>Pertanyaan</h3>
+  <textarea id="question" placeholder="Tulis pertanyaan customer..."></textarea><br>
+  <button onclick="askAI()">Tanya AI</button>
+
+  <div id="result"></div>
+
+<script>
+async function askAI() {
+  const data = {
+    business_profile: {
+      name: document.getElementById("name").value,
+      type: document.getElementById("type").value,
+      product: document.getElementById("product").value,
+      price: document.getElementById("price").value,
+      rules: document.getElementById("rules").value,
+      working_hours: document.getElementById("hours").value
+    },
+    question: document.getElementById("question").value
+  };
+
+  const res = await fetch("/api/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const json = await res.json();
+  document.getElementById("result").innerText = json.answer;
+}
+</script>
+
+</body>
+</html>
